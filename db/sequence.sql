@@ -5,6 +5,13 @@ CREATE SEQUENCE "constructor_sequence"
     MAXVALUE 999999
     CACHE 1;
 
+CREATE SEQUENCE "season_sequence"
+    START 1
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 999999
+    CACHE 1;
+
 CREATE SEQUENCE "nation_sequence" 
     START 1
     INCREMENT 1
