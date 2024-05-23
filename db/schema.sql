@@ -14,6 +14,12 @@ CREATE TABLE "category" (
     "name" VARCHAR(4)
 );
 
+CREATE TABLE "season" (
+    "id" VARCHAR(10) DEFAULT ('SEA') || LPAD(nextval('season_sequence')::TEXT,4,'0') PRIMARY KEY,
+    "name" VARCHAR(4),
+    "year" INT
+);
+
 CREATE TABLE "driver" (
     "id" VARCHAR(10) DEFAULT ('DRI') || LPAD(nextval('driver_sequence')::TEXT,4,'0') PRIMARY KEY,
     "first_name" VARCHAR(16),
