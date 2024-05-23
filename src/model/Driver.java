@@ -3,7 +3,7 @@ package model;
 import annotation.AnnotationAttribute;
 import annotation.AnnotationClass;
 
-@AnnotationClass("driver")
+@AnnotationClass("v_driver")
 public class Driver {
     @AnnotationAttribute("id")
     String id;
@@ -14,13 +14,13 @@ public class Driver {
     @AnnotationAttribute("last_name")
     String lastName;
 
-    @AnnotationAttribute("nation_id")
+    @AnnotationAttribute("nation")
     String nation;
 
-    @AnnotationAttribute("constructor_id")
+    @AnnotationAttribute("constructor")
     String contructor;
 
-    @AnnotationAttribute("category_id")
+    @AnnotationAttribute("category")
     String category;
     
     // Constructors

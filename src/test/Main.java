@@ -21,7 +21,7 @@ public class Main {
         for (Object object : drivers) {
             Driver driver = ((Driver)object);
 
-            System.out.println(driver.getLastName());
+            System.out.println(driver.getNation());
         }
     }
 }
