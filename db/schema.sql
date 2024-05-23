@@ -34,6 +34,7 @@ CREATE TABLE "driver" (
 
 CREATE TABLE "rally" (
     "id" VARCHAR(10) DEFAULT ('RAL') || LPAD(nextval('rally_sequence')::TEXT,4,'0') PRIMARY KEY,
+    "season_id" VARCHAR(10) REFERENCES "season" (id),
     "name" VARCHAR(16),
     "start_date" DATE DEFAULT null,
     "end_date" DATE DEFAULT null,
