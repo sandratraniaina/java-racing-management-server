@@ -11,7 +11,7 @@ CREATE TABLE "nation" (
 
 CREATE TABLE "category" (
     "id" INT PRIMARY KEY auto_increment,
-    'name' VARCHAR(4)
+    "name" VARCHAR(4)
 );
 
 CREATE TABLE "driver" (

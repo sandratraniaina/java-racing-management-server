@@ -1,0 +1,48 @@
+CREATE SEQUENCE "constructor_sequence"
+    START 1
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 999999
+    CACHE 1;
+
+CREATE SEQUENCE "nation_sequence" 
+    START 1
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 999999
+    CACHE 1;
+
+CREATE SEQUENCE "category_sequence" 
+    START 1
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 999999
+    CACHE 1;
+
+CREATE SEQUENCE "driver_sequence" 
+    START 1
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 999999
+    CACHE 1;
+
+CREATE SEQUENCE "rally_sequence" 
+    START 1
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 999999
+    CACHE 1;
+
+CREATE SEQUENCE "stage_sequence" 
+    START 1
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 999999
+    CACHE 1;
+
+CREATE SEQUENCE "result_sequence" 
+    START 1
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 999999
+    CACHE 1;
