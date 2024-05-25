@@ -45,3 +45,11 @@ INSERT INTO "rally" ("season_id", "name", "start_date", "end_date") VALUES
     ('SEA0001', 'Rally 1', '2024-01-01', '2024-12-31'),
     ('SEA0001', 'Rally 2', '2024-01-01', '2024-12-31'),
     ('SEA0001', 'Rally 3', '2024-01-01', '2024-12-31');
+
+INSERT INTO "stage" ("rally_id", "stage_number", "name", "length") VALUES
+    ('RAL0001', 1, 'Stage n01', 0),
+    ('RAL0001', 2, 'Stage n02', 0),
+    ('RAL0001', 3, 'Stage n03', 0),
+    ('RAL0001', 4, 'Stage n04', 0),
+    ('RAL0001', 5, 'Stage n05', 0),
+    ('RAL0001', 6, 'Stage n06', 0);
