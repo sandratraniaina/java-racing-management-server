@@ -19,6 +19,7 @@ CREATE OR REPLACE VIEW "v_driver_rally_time" AS (
         "d"."id" AS "id",
         "ra"."id" AS "rally_id",
         "ra"."season_id" AS "season_id",
+        "d"."category_id" AS "category_id",
         SUM("r"."time_s") AS "total_time_s",
         SUM("r"."time_millis") AS "total_time_millis"
     FROM "result" AS "r" 
@@ -70,4 +71,18 @@ CREATE OR REPLACE VIEW "v_driver_global_total_points" AS (
         "id"
     ORDER BY
         SUM("point") DESC
+);
+
+DROP VIEW IF EXISTS "v_driver_category_ranking" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_category_ranking" AS (
+    SELECT 
+        RANK() OVER (
+            PARTITION BY 
+                "dat"."rally_id",
+                "dat"."category_id"
+            ORDER BY 
+                "dat"."total_time_millis"
+        ),
+        *
+    FROM "v_driver_rally_time" AS "dat"
 );
