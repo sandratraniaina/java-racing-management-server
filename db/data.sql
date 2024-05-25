@@ -38,3 +38,6 @@ INSERT INTO "driver" ("first_name", "last_name", "nation_id", "constructor_id", 
     ('Driver', '5', 'NAT0005', 'CON0005', 'CAT0002'),
     ('Driver', '6', 'NAT0005', 'CON0001', 'CAT0001');
 
+INSERT INTO "season" ("name", "year") VALUES
+    ('S01', 2024);
+        
