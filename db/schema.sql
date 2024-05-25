@@ -74,3 +74,14 @@ CREATE TABLE "power_stage_points" (
     "season_id" VARCHAR(10) REFERENCES "season"("id"),
     "value" INT DEFAULT 0
 );
+
+CREATE OR REPLACE FUNCTION to_second(time_str TEXT)
+	RETURNS BIGINT
+AS $$
+DECLARE 
+	time_interval interval;
+BEGIN
+	time_interval := time_str;
+	RETURN extract(epoch FROM time_interval);
+END;
+$$ LANGUAGE plpgsql;
