@@ -62,3 +62,10 @@ INSERT INTO "stage" ("rally_id", "stage_number", "name", "length") VALUES
     ('RAL0002', 5, 'Stage n05', 0),
     ('RAL0002', 6, 'Stage n06', 0);
 
+INSERT INTO "stage" ("rally_id", "stage_number", "name", "length") VALUES
+    ('RAL0003', 1, 'Stage n01', 0),
+    ('RAL0003', 2, 'Stage n02', 0),
+    ('RAL0003', 3, 'Stage n03', 0),
+    ('RAL0003', 4, 'Stage n04', 0),
+    ('RAL0003', 5, 'Stage n05', 0),
+    ('RAL0003', 6, 'Stage n06', 0);
