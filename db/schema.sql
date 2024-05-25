@@ -66,12 +66,14 @@ CREATE TABLE "result" (
 CREATE TABLE "global_points" (
     "id" SERIAL PRIMARY KEY,
     "season_id" VARCHAR(10) REFERENCES "season"("id"),
+    "rank" INT NOT NULL DEFAULT 0,
     "value" INT DEFAULT 0
 );
 
 CREATE TABLE "power_stage_points" (
     "id" SERIAL PRIMARY KEY,
     "season_id" VARCHAR(10) REFERENCES "season"("id"),
+    "rank" INT NOT NULL DEFAULT 0,
     "value" INT DEFAULT 0
 );
 

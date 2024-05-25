@@ -70,6 +70,20 @@ INSERT INTO "stage" ("rally_id", "stage_number", "name", "length") VALUES
     ('RAL0003', 5, 'Stage n05', 0),
     ('RAL0003', 6, 'Stage n06', 0);
 
+INSERT INTO 
+    "global_points" ("season_id", "rank", "value")
+VALUES 
+    ('SEA0001', 1, 10),
+    ('SEA0001', 2, 9),
+    ('SEA0001', 3, 8),
+    ('SEA0001', 4, 7),
+    ('SEA0001', 5, 6),
+    ('SEA0001', 6, 5),
+    ('SEA0001', 7, 4),
+    ('SEA0001', 8, 3),
+    ('SEA0001', 9, 2),
+    ('SEA0001', 10, 1);
+
 INSERT INTO "result" ("rally_id", "driver_id", "stage_id", "time_s", "time_millis") VALUES 
     ('RAL0001', 'DRI0001', 'STA0001', to_second('00:12:45.400'), to_second('00:12:45.400') * 1000),
     ('RAL0001', 'DRI0002', 'STA0001', to_second('00:21:15.275'), to_second('00:21:15.275') * 1000),
