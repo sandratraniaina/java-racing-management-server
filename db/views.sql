@@ -28,4 +28,15 @@ CREATE OR REPLACE VIEW "v_driver_rally_time" AS (
         "ra"."id"
 );
 
-DROP VIEW IF EXISTS "v_driver_global_points";
+DROP VIEW IF EXISTS "v_driver_global_ranking";
+CREATE OR REPLACE VIEW "v_driver_global_ranking" AS (
+    SELECT 
+        RANK() OVER (
+            PARTITION BY 
+                "dat"."rally_id"
+            ORDER BY 
+                "dat"."total_time_millis"
+        ),
+        *
+    FROM "v_driver_rally_time" AS "dat"
+);
