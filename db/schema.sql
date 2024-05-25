@@ -56,7 +56,7 @@ CREATE TABLE "result" (
     "rally_id" VARCHAR(10),
     "driver_id" VARCHAR(10),
     "stage_id" VARCHAR(10),
-    "time_s" INT,
+    "time_s" FLOAT,
     "time_millis" INT,
     FOREIGN KEY ("rally_id") REFERENCES "rally" ("id"),
     FOREIGN KEY ("driver_id") REFERENCES "driver" ("id"),
@@ -76,7 +76,7 @@ CREATE TABLE "power_stage_points" (
 );
 
 CREATE OR REPLACE FUNCTION to_second(time_str TEXT)
-	RETURNS BIGINT
+	RETURNS FLOAT
 AS $$
 DECLARE 
 	time_interval interval;
