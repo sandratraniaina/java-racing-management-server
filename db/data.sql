@@ -40,4 +40,8 @@ INSERT INTO "driver" ("first_name", "last_name", "nation_id", "constructor_id", 
 
 INSERT INTO "season" ("name", "year") VALUES
     ('S01', 2024);
-        
+
+INSERT INTO "rally" ("season_id", "name", "start_date", "end_date") VALUES
+    ('SEA0001', 'Rally 1', '2024-01-01', '2024-12-31'),
+    ('SEA0001', 'Rally 2', '2024-01-01', '2024-12-31'),
+    ('SEA0001', 'Rally 3', '2024-01-01', '2024-12-31');
