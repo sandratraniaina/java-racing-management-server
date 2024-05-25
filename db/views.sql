@@ -86,3 +86,18 @@ CREATE OR REPLACE VIEW "v_driver_category_ranking" AS (
         *
     FROM "v_driver_rally_time" AS "dat"
 );
+
+DROP VIEW IF EXISTS "v_driver_category_points" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_category_points" AS (
+    SELECT 
+        "dcr"."rank" AS "rank",
+        "dcr"."id" AS "id",
+        "dcr"."season_id" AS "season_id",
+        "dcr"."category_id" AS "category_id",
+        "dcr"."total_time_millis" AS "total_time_millis",
+        "dcr"."total_time_s" AS "total_time_s",
+        COALESCE("gp"."value", 0) AS "point"
+    FROM "v_driver_category_ranking" AS "dcr"
+    LEFT JOIN "global_points" AS "gp" ON "gp"."rank" = "dcr"."rank"
+    LEFT JOIN "season" AS "s" ON "s"."id" = "gp"."season_id"
+);
