@@ -111,7 +111,7 @@ CREATE OR REPLACE VIEW "v_driver_category_total_points" AS (
                 "category_id"
             ORDER BY 
                 "total_time_millis"
-        ) AS rank,
+        ) AS "rank",
         "season_id" AS "season_id",
         "id" AS "id",
         "category_id" AS "category_id",
