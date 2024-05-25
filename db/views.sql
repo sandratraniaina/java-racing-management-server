@@ -101,3 +101,28 @@ CREATE OR REPLACE VIEW "v_driver_category_points" AS (
     LEFT JOIN "global_points" AS "gp" ON "gp"."rank" = "dcr"."rank"
     LEFT JOIN "season" AS "s" ON "s"."id" = "gp"."season_id"
 );
+
+DROP VIEW IF EXISTS "v_driver_category_total_points" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_category_total_points" AS (
+    SELECT 
+        RANK() OVER (
+            PARTITION BY 
+                "season_id",
+                "category_id"
+            ORDER BY 
+                "total_time_millis"
+        ) AS rank,
+        "season_id" AS "season_id",
+        "id" AS "id",
+        "category_id" AS "category_id",
+        SUM("total_time_millis") AS "total_time_millis",
+        SUM("total_time_s") AS "total_time_s",
+        SUM("point") AS "points"
+    FROM "v_driver_category_points"
+    GROUP BY 
+        "season_id",
+        "category_id",
+        "id"
+    ORDER BY
+        SUM("point") DESC
+);
