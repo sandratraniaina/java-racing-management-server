@@ -62,3 +62,15 @@ CREATE TABLE "result" (
     FOREIGN KEY ("driver_id") REFERENCES "driver" ("id"),
     FOREIGN KEY ("stage_id") REFERENCES "stage" ("id")
 );
+
+CREATE TABLE "global_points" (
+    "id" SERIAL PRIMARY KEY,
+    "season_id" VARCHAR(10) REFERENCES "season"("id"),
+    "value" INT DEFAULT 0
+);
+
+CREATE TABLE "power_stage_points" (
+    "id" SERIAL PRIMARY KEY,
+    "season_id" VARCHAR(10) REFERENCES "season"("id"),
+    "value" INT DEFAULT 0
+);

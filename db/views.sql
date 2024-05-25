@@ -27,3 +27,5 @@ CREATE OR REPLACE VIEW "v_driver_rally_time" AS (
         "d"."id",
         "ra"."id"
 );
+
+DROP VIEW IF EXISTS "v_driver_global_points";
