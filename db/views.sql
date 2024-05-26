@@ -132,7 +132,7 @@ CREATE OR REPLACE VIEW "v_rally_last_stage" AS (
     SELECT 
         "s"."id" AS "stage_id",
         "rally_ids"."rally_id" AS "rally_id",
-        "s"."stage_number" as stage_number
+        "s"."stage_number" as "stage_number"
     FROM "stage" AS "s"
     INNER JOIN (
         SELECT 
@@ -147,3 +147,8 @@ CREATE OR REPLACE VIEW "v_rally_last_stage" AS (
         "rally_ids"."rally_id",
         "s"."id"
 );
+
+DROP VIEW IF EXISTS "v_driver_power_stage_ranking" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_power_stage_ranking" AS (
+
+)
