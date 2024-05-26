@@ -150,5 +150,18 @@ CREATE OR REPLACE VIEW "v_rally_last_stage" AS (
 
 DROP VIEW IF EXISTS "v_driver_power_stage_ranking" CASCADE;
 CREATE OR REPLACE VIEW "v_driver_power_stage_ranking" AS (
-
-)
+    SELECT
+	"d".id,
+	RANK() OVER (
+		PARTITION BY
+			"rls"."stage_id"
+		ORDER BY 
+			"r"."time_millis"
+	) as "rank",
+	"r"."time_millis" as "time_millis",
+	"rls"."stage_id" AS "stage_id"
+    FROM "v_rally_last_stage" AS "rls"
+    JOIN "result" as "r" ON "r"."stage_id" = "rls"."stage_id"
+    JOIN "driver" as "d" ON "r"."driver_id" = "d"."id"
+    GROUP BY "rls"."stage_id", "d"."id", "r"."time_millis"
+);
