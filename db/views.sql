@@ -177,3 +177,21 @@ CREATE OR REPLACE VIEW "v_driver_power_stage_points" AS (
     GROUP BY 
         "dpsr"."id"
 );
+
+DROP VIEW IF EXISTS "v_driver_global_ps_total_points" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_global_ps_total_points" AS (
+    SELECT 
+        "dgp"."id" AS "id",
+        "dgp"."season_id" AS "season_id",
+        SUM("total_time_millis") AS "total_time_millis",
+        SUM("total_time_s") AS "total_time_s",
+        SUM("dgp"."point") + "dpsp"."point" AS "points"
+    FROM "v_driver_global_points" AS "dgp"
+    JOIN "v_driver_power_stage_points" AS "dpsp" ON "dpsp"."id" = "dgp"."id"
+    GROUP BY 
+        "dgp"."season_id",
+        "dgp"."id",
+        "dpsp"."point"
+    ORDER BY
+        SUM("dgp"."point") DESC
+);
