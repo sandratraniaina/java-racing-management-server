@@ -165,3 +165,15 @@ CREATE OR REPLACE VIEW "v_driver_power_stage_ranking" AS (
     JOIN "driver" as "d" ON "r"."driver_id" = "d"."id"
     GROUP BY "rls"."stage_id", "d"."id", "r"."time_millis"
 );
+
+DROP VIEW IF EXISTS "v_driver_power_stage_points" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_power_stage_points" AS (
+    SELECT 
+        "dpsr"."id" AS "id",
+        SUM(COALESCE("psp"."value", 0)) AS "point"
+    FROM "v_driver_power_stage_ranking" AS "dpsr"
+    LEFT JOIN "power_stage_points" AS "psp" ON "psp"."rank" = "dpsr"."rank"
+    LEFT JOIN "season" AS "s" ON "s"."id" = "psp"."season_id"
+    GROUP BY 
+        "dpsr"."id"
+);
