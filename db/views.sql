@@ -188,16 +188,6 @@ CREATE OR REPLACE VIEW "v_driver_power_stage_points" AS (
 		"psp"."season_id"
 );
 
-DROP VIEW IF EXISTS "v_driver_global_ps_total_points" CASCADE;
-CREATE OR REPLACE VIEW "v_driver_global_ps_total_points" AS (
-    SELECT 
-        "dgtp"."season_id",
-        "dgtp"."id",
-        "dgtp"."points" + COALESCE("dpsp"."point", 0) AS "total_points"
-    FROM "v_driver_global_total_points" AS "dgtp"
-    LEFT JOIN "v_driver_power_stage_points" AS "dpsp" ON "dgtp"."id" = "dpsp"."id" AND "dgtp"."season_id" = "dpsp"."season_id"
-);
-
 DROP VIEW IF EXISTS "v_driver_win_count" CASCADE;
 CREATE OR REPLACE VIEW "v_driver_win_count" AS (
     SELECT 
@@ -216,4 +206,19 @@ CREATE OR REPLACE VIEW "v_driver_win_count" AS (
             "dgr"."season_id"
     ) AS "won" 
     RIGHT JOIN "driver" AS "d" ON "d"."id" = "won"."id"
+);
+
+DROP VIEW IF EXISTS "v_driver_global_ps_total_points" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_global_ps_total_points" AS (
+    SELECT 
+        "dgtp"."season_id" AS "season_id",
+        "dgtp"."id" AS "id",
+        "dwc"."win_count" AS "win_count",
+        "dgtp"."points" + COALESCE("dpsp"."point", 0) AS "total_points"
+    FROM "v_driver_global_total_points" AS "dgtp"
+    LEFT JOIN "v_driver_power_stage_points" AS "dpsp" ON "dgtp"."id" = "dpsp"."id" AND "dgtp"."season_id" = "dpsp"."season_id"
+    JOIN "v_driver_win_count" AS "dwc" ON "dgtp"."id" = "dwc"."id"
+    ORDER BY 
+        "total_points" DESC, 
+        "win_count" DESC
 );
