@@ -130,52 +130,62 @@ CREATE OR REPLACE VIEW "v_driver_category_total_points" AS (
 DROP VIEW IF EXISTS "v_rally_last_stage" CASCADE;
 CREATE OR REPLACE VIEW "v_rally_last_stage" AS (
     SELECT 
-        "s"."id" AS "stage_id",
+        "rally_ids"."season_id",
         "rally_ids"."rally_id" AS "rally_id",
+        "s"."id" AS "stage_id",
         "s"."stage_number" as "stage_number"
     FROM "stage" AS "s"
     INNER JOIN (
         SELECT 
+            "r"."season_id" AS "season_id",
             ("rally_id"),
             MAX("stage_number") as "stage_number"
         FROM "stage"
+        JOIN "rally" AS "r" ON "r"."id" = "stage"."rally_id"
         GROUP BY 
-            "rally_id"
+            "rally_id",
+            "r"."season_id"
     ) AS "rally_ids" ON "rally_ids"."rally_id" = "s"."rally_id" AND "rally_ids".
     "stage_number" = "s"."stage_number"
     GROUP BY 
         "rally_ids"."rally_id",
+        "rally_ids"."season_id",
         "s"."id"
 );
 
 DROP VIEW IF EXISTS "v_driver_power_stage_ranking" CASCADE;
 CREATE OR REPLACE VIEW "v_driver_power_stage_ranking" AS (
     SELECT
-	"d".id,
-	RANK() OVER (
-		PARTITION BY
-			"rls"."stage_id"
-		ORDER BY 
-			"r"."time_millis"
-	) as "rank",
-	"r"."time_millis" as "time_millis",
-	"rls"."stage_id" AS "stage_id"
+        "rls"."season_id" AS "season_id",
+        "rls"."stage_id" AS "stage_id",
+        "d".id,
+        RANK() OVER (
+            PARTITION BY
+                "rls"."stage_id"
+            ORDER BY 
+                SUM("r"."time_millis")
+        ) AS "rank",
+        SUM("r"."time_millis") AS "time_millis"
     FROM "v_rally_last_stage" AS "rls"
-    JOIN "result" as "r" ON "r"."stage_id" = "rls"."stage_id"
-    JOIN "driver" as "d" ON "r"."driver_id" = "d"."id"
-    GROUP BY "rls"."stage_id", "d"."id", "r"."time_millis"
+    JOIN "result" AS "r" ON "r"."stage_id" = "rls"."stage_id"
+    JOIN "driver" AS "d" ON "r"."driver_id" = "d"."id"
+    GROUP BY 
+        "rls"."season_id",
+        "rls"."stage_id", 
+        "d"."id"
 );
 
 DROP VIEW IF EXISTS "v_driver_power_stage_points" CASCADE;
 CREATE OR REPLACE VIEW "v_driver_power_stage_points" AS (
     SELECT 
+		"psp"."season_id",
         "dpsr"."id" AS "id",
         SUM(COALESCE("psp"."value", 0)) AS "point"
     FROM "v_driver_power_stage_ranking" AS "dpsr"
     LEFT JOIN "power_stage_points" AS "psp" ON "psp"."rank" = "dpsr"."rank"
-    LEFT JOIN "season" AS "s" ON "s"."id" = "psp"."season_id"
     GROUP BY 
-        "dpsr"."id"
+        "dpsr"."id",
+		"psp"."season_id"
 );
 
 DROP VIEW IF EXISTS "v_driver_global_ps_total_points" CASCADE;
