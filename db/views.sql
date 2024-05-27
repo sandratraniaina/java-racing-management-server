@@ -195,3 +195,23 @@ CREATE OR REPLACE VIEW "v_driver_global_ps_total_points" AS (
     ORDER BY
         SUM("dgp"."point") DESC
 );
+
+DROP VIEW IF EXISTS "v_driver_win_count" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_win_count" AS (
+    SELECT 
+        "d"."id",
+        COALESCE("won"."win_count", 0) AS "win_count"
+    FROM (
+        SELECT 
+            "dgr"."id" AS "id",
+            COUNT("dgr"."id") AS "win_count",
+            "dgr"."season_id" AS "season_id"
+        FROM "v_driver_global_ranking" AS "dgr"
+        WHERE 
+            "dgr"."rank" = 1
+        GROUP BY 
+            "dgr"."id",
+            "dgr"."season_id"
+    ) AS "won" 
+    RIGHT JOIN "driver" AS "d" ON "d"."id" = "won"."id"
+);
