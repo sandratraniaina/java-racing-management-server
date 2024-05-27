@@ -205,9 +205,9 @@ CREATE OR REPLACE VIEW "v_driver_win_count" AS (
         COALESCE("won"."win_count", 0) AS "win_count"
     FROM (
         SELECT 
+            "dgr"."season_id" AS "season_id",
             "dgr"."id" AS "id",
-            COUNT("dgr"."id") AS "win_count",
-            "dgr"."season_id" AS "season_id"
+            COUNT("dgr"."id") AS "win_count"
         FROM "v_driver_global_ranking" AS "dgr"
         WHERE 
             "dgr"."rank" = 1
