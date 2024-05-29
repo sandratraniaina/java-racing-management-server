@@ -1,0 +1,7 @@
+<dao>
+    <url>jdbc:postgresql://localhost:5432/racing</url>
+    <driver>org.postgresql.Driver</driver>
+    <user>postgres</user>
+    <password>aina</password>
+    <engine>postgres</engine>
+</dao>
