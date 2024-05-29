@@ -1,15 +1,28 @@
 package filter;
 
-public class CorsFilter implements HttpFilter {
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+public class CorsFilter implements Filter {
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        httpResponse.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5500"); // Replace with allowed origin(s)
-        httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); // Allowed methods
-        httpResponse.setHeader("Access-Control-Max-Age", "3600"); // Cache preflight request for 1 hour
-        httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); // Allowed headers
-        chain.doFilter(request, response);
+    public void init(FilterConfig filterConfig) throws ServletException {
+        // No initialization required
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    @Override
+    public void destroy() {
+        // No cleanup required
     }
 }
