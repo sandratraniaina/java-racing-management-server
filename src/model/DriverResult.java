@@ -1,10 +1,12 @@
 package model;
 
+import java.io.Serializable;
+
 import annotation.Column;
 import annotation.Table;
 
 @Table("v_driver_global_ps_total_points")
-public class DriverResult {
+public class DriverResult implements Serializable{
     @Column("rank")
     int rank;
 
