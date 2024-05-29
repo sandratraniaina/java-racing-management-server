@@ -211,13 +211,23 @@ CREATE OR REPLACE VIEW "v_driver_win_count" AS (
 DROP VIEW IF EXISTS "v_driver_global_ps_total_points" CASCADE;
 CREATE OR REPLACE VIEW "v_driver_global_ps_total_points" AS (
     SELECT 
+        RANK() OVER (
+            PARTITION BY
+                "dgtp"."season_id"
+            ORDER BY 
+                "dgtp"."points" + COALESCE("dpsp"."point", 0) DESC,
+                "dwc"."win_count"
+        ) AS "rank",
         "dgtp"."season_id" AS "season_id",
         "dgtp"."id" AS "id",
+        CONCAT("d"."first_name", "d"."last_name") AS "driver_name",
+        "d"."category" AS "driver_category",
         "dwc"."win_count" AS "win_count",
         "dgtp"."points" + COALESCE("dpsp"."point", 0) AS "total_points"
     FROM "v_driver_global_total_points" AS "dgtp"
     LEFT JOIN "v_driver_power_stage_points" AS "dpsp" ON "dgtp"."id" = "dpsp"."id" AND "dgtp"."season_id" = "dpsp"."season_id"
     JOIN "v_driver_win_count" AS "dwc" ON "dgtp"."id" = "dwc"."id"
+    JOIN "v_driver" AS "d" ON "d"."id" = "dgtp"."id"
     ORDER BY 
         "total_points" DESC, 
         "win_count" DESC

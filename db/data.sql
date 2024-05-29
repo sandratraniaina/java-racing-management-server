@@ -91,8 +91,7 @@ VALUES
     ('SEA0001', 2, 4),
     ('SEA0001', 3, 3),
     ('SEA0001', 4, 2),
-    ('SEA0001', 5, 1),
-    ('SEA0001', 6, -1);
+    ('SEA0001', 5, 1);
 
 INSERT INTO "result" ("rally_id", "driver_id", "stage_id", "time_s", "time_millis") VALUES 
     ('RAL0001', 'DRI0001', 'STA0001', to_second('00:12:45.400'), to_second('00:12:45.400') * 1000),
