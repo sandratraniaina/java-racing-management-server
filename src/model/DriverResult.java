@@ -8,12 +8,12 @@ import annotation.Table;
 @Table("v_driver_global_ps_total_points")
 public class DriverResult implements Serializable{
     @Column("rank")
-    int rank;
+    Long rank;
 
     @Column("season_id")
     String seasonId;
 
-    @Column("driver_id")
+    @Column("id")
     String driverId;
 
     @Column("driver_name")
@@ -23,19 +23,19 @@ public class DriverResult implements Serializable{
     String driverCategory;
 
     @Column("win_count")
-    int winCount;
+    Long winCount;
 
     @Column("total_points")
-    int totalPoints;
+    Long totalPoints;
 
     //Constructor
     public DriverResult() {}
 
     // Getters and setters
-    public int getRank() {
+    public Long getRank() {
         return rank;
     }
-    public void setRank(int rank) {
+    public void setRank(Long rank) {
         this.rank = rank;
     }
     public String getSeasonId() {
@@ -62,16 +62,16 @@ public class DriverResult implements Serializable{
     public void setDriverCategory(String driverCategory) {
         this.driverCategory = driverCategory;
     }
-    public int getWinCount() {
+    public Long getWinCount() {
         return winCount;
     }
-    public void setWinCount(int winCount) {
+    public void setWinCount(Long winCount) {
         this.winCount = winCount;
     }
-    public int getTotalPoints() {
+    public Long getTotalPoints() {
         return totalPoints;
     }
-    public void setTotalPoints(int totalPoints) {
+    public void setTotalPoints(Long totalPoints) {
         this.totalPoints = totalPoints;
     }
 }
