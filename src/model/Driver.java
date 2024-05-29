@@ -1,26 +1,26 @@
 package model;
 
-import annotation.AnnotationAttribute;
-import annotation.AnnotationClass;
+import annotation.Column;
+import annotation.Table;
 
-@AnnotationClass("v_driver")
+@Table("v_driver")
 public class Driver {
-    @AnnotationAttribute("id")
+    @Column("id")
     String id;
 
-    @AnnotationAttribute("first_name")
+    @Column("first_name")
     String firstName;
 
-    @AnnotationAttribute("last_name")
+    @Column("last_name")
     String lastName;
 
-    @AnnotationAttribute("nation")
+    @Column("nation")
     String nation;
 
-    @AnnotationAttribute("constructor")
+    @Column("constructor")
     String contructor;
 
-    @AnnotationAttribute("category")
+    @Column("category")
     String category;
     
     // Constructors
