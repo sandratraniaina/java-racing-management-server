@@ -1,12 +1,29 @@
 package model;
 
+import annotation.Column;
+import annotation.Table;
+
+@Table("v_driver_global_ps_total_points")
 public class DriverResult {
+    @Column("rank")
     int rank;
+
+    @Column("season_id")
     String seasonId;
+
+    @Column("driver_id")
     String driverId;
+
+    @Column("driver_name")
     String driverName;
+
+    @Column("driver_category")
     String driverCategory;
+
+    @Column("win_count")
     int winCount;
+
+    @Column("total_points")
     int totalPoints;
 
     //Constructor
