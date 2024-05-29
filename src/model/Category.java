@@ -1,8 +1,16 @@
 package model;
 
-public class Category {
+import java.io.Serializable;
+
+import annotation.Column;
+import annotation.Table;
+
+@Table("category")
+public class Category implements Serializable{
+    @Column("id")
     String id;
     
+    @Column("name")
     String name;
 
     // Constructors
