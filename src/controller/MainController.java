@@ -11,17 +11,31 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Category;
 import model.DriverResult;
 
-public class MainController extends HttpServlet{
+public class MainController extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        try {
+            Dao dao = new Dao("webapps/racing/WEB-INF/context.xml");
+
+            ArrayList<Object> categories = dao.readAll(new Category());
+
+            Gson gson = new Gson();
+            out.println(gson.toJson(categories));
+        } catch (Exception e) {
+            e.printStackTrace(out);
+        }
 
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         PrintWriter out = response.getWriter();
 
         String categoryId = request.getParameter("category_id");
@@ -34,13 +48,14 @@ public class MainController extends HttpServlet{
 
         String query = "SELECT * FROM " + viewName;
         if (categoryId != null && categoryId != "") {
-            query += " WHERE category_id = \'" + categoryId + "\'"; 
+            query += " WHERE category_id = \'" + categoryId + "\'";
         }
 
         try {
             Dao dao = new Dao("webapps/racing/WEB-INF/context.xml");
-            ArrayList<Object> result = dao.getSqlUtils().executeQuery(dao.getSqlUtils().getConnection(), new DriverResult(), query);
-            
+            ArrayList<Object> result = dao.getSqlUtils().executeQuery(dao.getSqlUtils().getConnection(),
+                    new DriverResult(), query);
+
             Gson gson = new Gson();
 
             out.println(gson.toJson(result));
@@ -48,5 +63,5 @@ public class MainController extends HttpServlet{
             e.printStackTrace(out);
         }
     }
-    
+
 }
