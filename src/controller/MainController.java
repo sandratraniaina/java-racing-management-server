@@ -38,11 +38,11 @@ public class MainController extends HttpServlet{
         }
 
         try {
-            Dao dao = new Dao("../context.xml");
+            Dao dao = new Dao("webapps/racing/WEB-INF/context.xml");
             ArrayList<Object> result = dao.getSqlUtils().executeQuery(dao.getSqlUtils().getConnection(), new DriverResult(), query);
             
             Gson gson = new Gson();
-            
+
             out.println(gson.toJson(result));
         } catch (Exception e) {
             e.printStackTrace(out);
