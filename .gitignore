@@ -39,3 +39,5 @@ bin/
 build/
 /bin1/
 java/build/**
+
+src/test/
