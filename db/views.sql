@@ -102,31 +102,6 @@ CREATE OR REPLACE VIEW "v_driver_category_points" AS (
     LEFT JOIN "season" AS "s" ON "s"."id" = "gp"."season_id"
 );
 
-DROP VIEW IF EXISTS "v_driver_category_total_points" CASCADE;
-CREATE OR REPLACE VIEW "v_driver_category_total_points" AS (
-    SELECT 
-        RANK() OVER (
-            PARTITION BY 
-                "season_id",
-                "category_id"
-            ORDER BY 
-                SUM("total_time_millis")
-        ) AS "rank",
-        "season_id" AS "season_id",
-        "id" AS "id",
-        "category_id" AS "category_id",
-        SUM("total_time_millis") AS "total_time_millis",
-        SUM("total_time_s") AS "total_time_s",
-        SUM("point") AS "points"
-    FROM "v_driver_category_points"
-    GROUP BY 
-        "season_id",
-        "category_id",
-        "id"
-    ORDER BY
-        SUM("point") DESC
-);
-
 DROP VIEW IF EXISTS "v_rally_last_stage" CASCADE;
 CREATE OR REPLACE VIEW "v_rally_last_stage" AS (
     SELECT 
@@ -231,4 +206,41 @@ CREATE OR REPLACE VIEW "v_driver_global_ps_total_points" AS (
     ORDER BY 
         "total_points" DESC, 
         "win_count" DESC
+);
+
+DROP VIEW IF EXISTS "v_driver_category_total_points" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_category_total_points" AS (
+    SELECT 
+        RANK() OVER (
+            PARTITION BY 
+                "season_id",
+                "category_id"
+            ORDER BY 
+                SUM("point") DESC
+        ) AS "rank",
+        "dcp"."season_id" AS "season_id",
+        "dcp"."category_id",
+        "dcp"."id" AS "id",
+        SUM("point") AS "points"
+    FROM "v_driver_category_points" AS "dcp"
+    GROUP BY 
+        "dcp"."season_id",
+        "dcp"."category_id",
+        "dcp"."id"
+    ORDER BY
+        "rank"
+);
+
+DROP VIEW IF EXISTS "v_driver_category_result" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_category_result" AS (
+    SELECT 
+        "rank",
+        "dctp"."season_id",
+        "d"."category" AS "driver_category",
+        "dctp"."id" AS "id",
+        CONCAT("d"."first_name", "d"."last_name") AS "driver_name",
+        "points" AS "total_points",
+        0::bigint AS "win_count"
+    FROM "v_driver_category_total_points" AS "dctp"
+    JOIN "v_driver" AS "d" ON "d"."id" = "dctp"."id"
 );

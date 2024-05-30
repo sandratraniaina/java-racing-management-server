@@ -38,17 +38,17 @@ public class MainController extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
 
-        String categoryId = request.getParameter("category_id");
+        String categoryId = request.getParameter("category");
 
         String viewName = "v_driver_global_ps_total_points";
 
         if (categoryId != null && categoryId != "") {
-            viewName = "v_driver_category_total_points";
+            viewName = "v_driver_category_result";
         }
 
         String query = "SELECT * FROM " + viewName;
         if (categoryId != null && categoryId != "") {
-            query += " WHERE category_id = \'" + categoryId + "\'";
+            query += " WHERE driver_category = \'" + categoryId + "\'";
         }
 
         try {
