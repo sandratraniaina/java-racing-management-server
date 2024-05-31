@@ -20,7 +20,6 @@ CREATE OR REPLACE VIEW "v_driver_rally_time" AS (
         "ra"."id" AS "rally_id",
         "ra"."season_id" AS "season_id",
         "d"."category_id" AS "category_id",
-        SUM("r"."time_s") AS "total_time_s",
         SUM("r"."time_millis") AS "total_time_millis"
     FROM "result" AS "r" 
     JOIN "driver" AS "d" ON "r"."driver_id" = "d"."id"
@@ -50,7 +49,6 @@ CREATE OR REPLACE VIEW "v_driver_global_points" AS (
         "dgr"."id" AS "id",
         "dgr"."season_id" AS "season_id",
         "dgr"."total_time_millis" AS "total_time_millis",
-        "dgr"."total_time_s" AS "total_time_s",
         COALESCE("gp"."value", 0) AS "point"
     FROM "v_driver_global_ranking" AS "dgr"
     LEFT JOIN "global_points" AS "gp" ON "gp"."rank" = "dgr"."rank"
@@ -63,7 +61,6 @@ CREATE OR REPLACE VIEW "v_driver_global_total_points" AS (
         "id" AS "id",
         "season_id" AS "season_id",
         SUM("total_time_millis") AS "total_time_millis",
-        SUM("total_time_s") AS "total_time_s",
         SUM("point") AS "points"
     FROM "v_driver_global_points" AS "dgp"
     GROUP BY 
@@ -95,7 +92,6 @@ CREATE OR REPLACE VIEW "v_driver_category_points" AS (
         "dcr"."season_id" AS "season_id",
         "dcr"."category_id" AS "category_id",
         "dcr"."total_time_millis" AS "total_time_millis",
-        "dcr"."total_time_s" AS "total_time_s",
         COALESCE("gp"."value", 0) AS "point"
     FROM "v_driver_category_ranking" AS "dcr"
     LEFT JOIN "global_points" AS "gp" ON "gp"."rank" = "dcr"."rank"
