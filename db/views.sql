@@ -288,3 +288,16 @@ CREATE OR REPLACE VIEW "v_global_ranking_penalty" AS (
         *
     FROM "v_driver_rally_time_penalty" AS "drtp"
 );
+
+DROP VIEW IF EXISTS "v_driver_global_points_penalty" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_global_points_penalty" AS (
+    SELECT 
+        "dgr"."rank" AS "rank",
+        "dgr"."id" AS "id",
+        "dgr"."season_id" AS "season_id",
+        "dgr"."total_time_millis" AS "total_time_millis",
+        COALESCE("gp"."value", 0) AS "point"
+    FROM "v_global_ranking_penalty" AS "dgr"
+    LEFT JOIN "global_points" AS "gp" ON "gp"."rank" = "dgr"."rank"
+    LEFT JOIN "season" AS "s" ON "s"."id" = "gp"."season_id"
+);
