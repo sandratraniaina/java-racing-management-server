@@ -240,3 +240,51 @@ CREATE OR REPLACE VIEW "v_driver_category_result" AS (
     FROM "v_driver_category_total_points" AS "dctp"
     JOIN "v_driver" AS "d" ON "d"."id" = "dctp"."id"
 );
+
+-- Alea
+DROP VIEW IF EXISTS "v_penalty" CASCADE;
+CREATE OR REPLACE VIEW "v_penalty" AS (
+    SELECT
+        l.rally_id AS rally_id,
+        dl.driver_id AS driver_id,
+        CASE WHEN (dl.time < l.ideal_time) 
+                THEN (extract(minute from l.ideal_time) - extract(minute from dl.time)) * 60000
+            WHEN (dl.time > l.ideal_time) 
+                THEN (extract(minute from dl.time) - extract(minute from l.ideal_time)) * 10000
+            WHEN dl.time = l.ideal_time
+                THEN 0
+        END AS penalty
+    FROM driver as d
+    JOIN driver_linking AS dl ON d.id = dl.driver_id
+    JOIN linking AS l ON dl.linking_id = l.id
+);
+
+DROP VIEW IF EXISTS "v_driver_rally_time_penalty" CASCADE;
+CREATE OR REPLACE VIEW "v_driver_rally_time_penalty" AS (
+    SELECT 
+        "d"."id" AS "id",
+        "ra"."id" AS "rally_id",
+        "ra"."season_id" AS "season_id",
+        "d"."category_id" AS "category_id",
+        SUM("r"."time_millis") + SUM("p"."penalty") AS "total_time_millis"
+    FROM "result" AS "r" 
+    JOIN "driver" AS "d" ON "r"."driver_id" = "d"."id"
+    JOIN "rally" AS "ra" ON "ra"."id" = "r"."rally_id"
+    JOIN v_penalty AS p ON p.driver_id = d.id AND p.rally_id = ra.id
+    GROUP BY 
+        "d"."id",
+        "ra"."id"
+);
+
+DROP VIEW IF EXISTS "v_global_ranking_penalty" CASCADE;
+CREATE OR REPLACE VIEW "v_global_ranking_penalty" AS (
+    SELECT 
+        RANK() OVER (
+            PARTITION BY 
+                "drtp"."rally_id"
+            ORDER BY 
+                "drtp"."total_time_millis"
+        ),
+        *
+    FROM "v_driver_rally_time_penalty" AS "drtp"
+);

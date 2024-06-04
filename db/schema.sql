@@ -86,3 +86,18 @@ BEGIN
 	RETURN extract(epoch FROM time_interval);
 END;
 $$ LANGUAGE plpgsql;
+
+--  Alea
+CREATE TABLE "linking" (
+    id SERIAL PRIMARY KEY,
+    rally_id VARCHAR(10) REFERENCES rally(id),
+    stage_id VARCHAR(10) REFERENCES stage(id),
+    ideal_time TIME 
+);
+
+CREATE TABLE "driver_linking" (
+    id SERIAL PRIMARY KEY,
+    driver_id VARCHAR(10) REFERENCES driver(id),
+    linking_id INT REFERENCES linking(id),
+    time TIME
+);  
